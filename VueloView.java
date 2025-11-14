@@ -1,18 +1,3 @@
-ppackage vista;
-
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerDateModel;
-import java.util.Date;
-import java.util.Calendar;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -25,9 +10,9 @@ public class VueloView extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	public JSpinner spinner;
-	public JComboBox comboBox_1;
-	public JComboBox comboBox_2 ;
-	public JComboBox comboBox_3;
+	public JComboBox aerolinea;
+	public JComboBox destino ;
+	public JComboBox origen;
 	public JButton btnConsultar;
 	public JButton btnEliminar;
 	public JButton btnActualizar;
@@ -100,20 +85,20 @@ public class VueloView extends JFrame {
 		lblFecha.setBounds(288, 115, 86, 14);
 		contentPane.add(lblFecha);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Avianca ", "LATAM", "Viva Air", "Wingo"}));
-		comboBox_1.setBounds(400, 56, 86, 22);
-		contentPane.add(comboBox_1);
+		JComboBox aerolinea = new JComboBox();
+		aerolinea.setModel(new DefaultComboBoxModel(new String[] {"Avianca ", "LATAM", "Viva Air", "Wingo"}));
+		aerolinea.setBounds(400, 56, 86, 22);
+		contentPane.add(aerolinea);
 		
-		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"Medellin", "Cartagena ", "Bucaramanga", "Cali", "Barranquilla "}));
-		comboBox_2.setBounds(78, 111, 102, 22);
-		contentPane.add(comboBox_2);
+		JComboBox destino = new JComboBox();
+		destino.setModel(new DefaultComboBoxModel(new String[] {"Medellin", "Cartagena ", "Bucaramanga", "Cali", "Barranquilla "}));
+		destino.setBounds(78, 111, 102, 22);
+		contentPane.add(destino);
 		
-		JComboBox comboBox_3 = new JComboBox();
-		comboBox_3.setModel(new DefaultComboBoxModel(new String[] {"Medellin", "Cartagena ", "Bucaramanga", "Cali", "Barranquilla "}));
-		comboBox_3.setBounds(75, 56, 112, 22);
-		contentPane.add(comboBox_3);
+		JComboBox origen = new JComboBox();
+		origen.setModel(new DefaultComboBoxModel(new String[] {"Medellin", "Cartagena ", "Bucaramanga", "Cali", "Barranquilla "}));
+		origen.setBounds(75, 56, 112, 22);
+		contentPane.add(origen);
 		
 		JButton btnConsultar = new JButton("Consultar Vuelo");
 		btnConsultar.addActionListener(new ActionListener() {
