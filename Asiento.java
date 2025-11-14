@@ -1,9 +1,10 @@
-package modeloDTO;
+package modelo.dto;
 
 import java.io.Serializable;
 
 public class Asiento implements Serializable {
-    private int fila;
+    private static final long serialVersionUID = 1L;
+	private int fila;
     private char asiento;
     private Pasajero pasajero;
 
@@ -27,4 +28,13 @@ public class Asiento implements Serializable {
     public void setPasajero(Pasajero pasajero) {
         this.pasajero = pasajero;
     }
+
+	public void setFila(int fila) {
+		this.fila = fila;
+	}
+
+	public void setAsiento(char asiento) {
+		this.asiento = asiento;
+	}
+    
 }
