@@ -1,16 +1,31 @@
+package controlador;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Date;
+
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+import modelo.dao.VueloDAO;
+import modelo.dto.Asiento;
+import modelo.dto.Vuelo;
+import vista.VueloView;
+
 public class ControladorVuelo implements ActionListener {
 	
-	private VistaVuelo vista;
+	private VueloView vista;
 	private VueloDAO modelo;
+	private Vuelo vuelo;
 	private int index;
 	
 	
-	public ControladorVuelo(VistaVuelo vista) {
+	public ControladorVuelo(VueloView vista) {
 		this.vista= vista;
-		this.modelo = new VueloDao();
+		this.modelo = new VueloDAO();
 		
 		this.vista.btnActualizar.addActionListener(this);
-		this.vista.btnLeer.addActionListener(this);
+		this.vista.btnConsultar.addActionListener(this);
 		this.vista.btnEliminar.addActionListener(this);
 		this.vista.btnCrear.addActionListener(this);
 		this.vista.btnLeerTodos.addActionListener(this);
@@ -24,9 +39,11 @@ public class ControladorVuelo implements ActionListener {
 		// TODO Auto-generated method stub
 		if (e.getSource().equals(this.vista.btnCrear));
 		crear();
-		if (e.getSource().equals(this.vista.btnLeer));
+		if (e.getSource().equals(this.vista.btnConsultar));
 		leer();
 		if (e.getSource().equals(this.vista.btnActualizar));
+		this.vista.Filas.setEditable(false);
+		this.vista.Columnas.setEditable(false);
 		actualizar();
 		if (e.getSource().equals(this.vista.btnEliminar));
 		eliminar();
@@ -36,13 +53,16 @@ public class ControladorVuelo implements ActionListener {
 	
 	public void crear() {
 		Vuelo nuevo = new Vuelo();
-		nuevo.setNumero(Integer.valueOf(vista.getText)));
-		nuevo.setOrigen(Integer.valueOf(vista.getText)));
-		nuevo.setDestino(Integer.valueOf(vista.getText)));
-		nuevo.setFechaHoraSalida(Integer.valueOf(vista.getText)));
-		nuevo.setAreolinea(Integer.valueOf(vista.getText)));
-		nuevo.setAsientos(Integer.valueOf(vista.getText)));
+		vuelo.setNumero(Integer.valueOf(this.vista.numero.getText()));
+		vuelo.setOrigen(this.vista.origen.getSelectedItem().toString());
+		vuelo.setDestino(this.vista.destino.getSelectedItem().toString());
+		vuelo.setAerolinea(this.vista.aerolinea.getSelectedItem().toString());
+		Date fechaHoraSalida = (Date) this.vista.spinner.getValue();
 		
+		int fila= Integer.valueOf(vista.Filas.getText());
+		int asientoFila=  Integer.valueOf(vista.Columnas.getText());
+		
+		vuelo.generarAsientos(fila, asientoFila);
 		if(modelo.crear(nuevo)) 
 			JOptionPane.showMessageDialog(null, "Se adiciona un nuevo Vuelo a la Data");
 		else 
@@ -52,16 +72,49 @@ public class ControladorVuelo implements ActionListener {
 	
 	public void leer () {
 		Vuelo buscar = new Vuelo();
-		buscar.setNumero(Integer.valueOf(vista.getText)));
-		Vuelo encontrado = (Vuelo) modelo.leer(buscar);
-		
-		
-		
+		buscar.setNumero(Integer.valueOf(vista.numero.getText()));
+		Vuelo vueloE = (Vuelo) modelo.leer(vuelo);
+		if(vueloE == null) 
+			JOptionPane.showMessageDialog(null, "No se encontro el vuelo");
+		else {
+			index = modelo.buscarIndex(vueloE);
+			this.vista.numero.setText(String.valueOf(vueloE.getNumero()));
+			this.vista.origen.setSelectedItem(vueloE.getOrigen());
+			this.vista.destino.setSelectedItem(vueloE.getDestino());
+			this.vista.aerolinea.setSelectedItem(vueloE.getAerolinea());
+			this.vista.spinner.setValue(vueloE.getFechaHoraSalida());
+			DefaultTableModel Asientost;
+			
+			Asientost = (DefaultTableModel) this.vista.tablaAsientos.getModel();
+			Asiento[][] asientos = vueloE.getAsiento();
+			int filas = Asientost.getRowCount();
+			for (int i=0; i<filas;i++) {
+				Asientost.removeRow(0);
+			}
+			for (Asiento[] filaAsientos : asientos) { 
+			    for (Asiento asiento : filaAsientos) {
+			        
+			        Object[] fila = { 
+			            asiento.getFila(),
+			            asiento.getPasajero() == null ? "Disponible" : "Ocupado"
+			        };
+			        Asientost.addRow(fila);
+				
+			}
+			
+		}
+			
+		}	
 		
 		}
-		
+		public void actualizar() {
+			int respuesta = JOptionPane.showConfirmDialog(null, "Quieres actualizar los datos?");
+			if(respuesta == JOptionPane.YES_OPTION) {
+				Vuelo vuelo = new Vuelo();
+				
+			}
+		}
 		
 	}
 	
 	
-}
