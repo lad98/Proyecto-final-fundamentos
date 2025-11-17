@@ -11,7 +11,8 @@ public class Vuelo implements Serializable {
     private String destino;
     private Date fechaHoraSalida;
     private String aerolinea;
-    private Asiento[][] asiento;
+    private Asiento[][] asientos;
+	
 
     public int getNumero() {
         return numero;
@@ -34,7 +35,7 @@ public class Vuelo implements Serializable {
     }
 
     public Asiento[][] getAsiento() {
-        return asiento;
+        return asientos;
     }
 
     
@@ -59,20 +60,30 @@ public class Vuelo implements Serializable {
 	}
 
 	public void setAsiento(Asiento[][] asiento) {
-		this.asiento = asiento;
+		this.asientos = asiento;
 	}
 
 	public void generarAsientos(int filas, int asientosFilas) {
-        Asiento[][] asientos = new Asiento [32][32];
-        for (int i = 0; i < filas; i++){
-            for ( int j = 0; j < asientosFilas ; j++){
-                char asiento = (char)('A'+j);
-                int fila = (i + 1);
-                asientos[i][j] = new Asiento(fila, asiento);
-                
-                
-            }
-        }
+	    
+	    this.asientos = new Asiento[filas][asientosFilas];
+	    
+	    for (int i = 0; i < filas; i++){
+	        for ( int j = 0; j < asientosFilas ; j++){
+	            
+	           
+	            Asiento asiento = new Asiento();
+	            
+	           
+	            asiento.setFila(i+1);
+	            asiento.setAsiento((char)('A'+j));
+	            asiento.setPasajero(null);
+	            
+	            this.asientos[i][j]= asiento;
+	        }
+	    }
+	}
+
+}
     }
 
 
