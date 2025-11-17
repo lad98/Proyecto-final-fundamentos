@@ -5,13 +5,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Vuelo implements Serializable {
-    private static final long serialVersionUID = 1L;
-	private int numero;
-    private String origen;
-    private String destino;
-    private Date fechaHoraSalida;
-    private String aerolinea;
-    private Asiento[][] asientos;
+    protected static final long serialVersionUID = 1L;
+    protected int numero;
+	protected String origen;
+	protected String destino;
+	protected Date fechaHoraSalida;
+	protected String aerolinea;
+	protected Asiento[][] asientos;
 	
 
     public int getNumero() {
@@ -82,9 +82,5 @@ public class Vuelo implements Serializable {
 	        }
 	    }
 	}
-
-}
-    }
-
 
 }
