@@ -37,6 +37,7 @@ public class VueloView extends JFrame {
 	public JTextField Filas;
 	public JTextField Columnas;
 	public JTable tablaAsientos;
+	public JTable table;
 	 
 
 	/**
@@ -75,7 +76,7 @@ public class VueloView extends JFrame {
 		contentPane.add(numero);
 		numero.setColumns(10);
 		
-		JSpinner spinner = new JSpinner();
+		spinner = new JSpinner();
 		spinner.setModel(new SpinnerDateModel(new Date(1762837200000L), new Date(1762837200000L), null, Calendar.DAY_OF_YEAR));
 		spinner.setBounds(396, 107, 156, 30);
 		contentPane.add(spinner);
@@ -100,22 +101,22 @@ public class VueloView extends JFrame {
 		lblFecha.setBounds(288, 115, 86, 14);
 		contentPane.add(lblFecha);
 		
-		JComboBox aerolinea = new JComboBox();
+		aerolinea = new JComboBox();
 		aerolinea.setModel(new DefaultComboBoxModel(new String[] {"Avianca ", "LATAM", "Viva Air", "Wingo"}));
 		aerolinea.setBounds(400, 56, 86, 22);
 		contentPane.add(aerolinea);
 		
-		JComboBox destino = new JComboBox();
+		destino = new JComboBox();
 		destino.setModel(new DefaultComboBoxModel(new String[] {"Medellin", "Cartagena ", "Bucaramanga", "Cali", "Barranquilla "}));
 		destino.setBounds(78, 111, 102, 22);
 		contentPane.add(destino);
 		
-		JComboBox origen = new JComboBox();
+		origen = new JComboBox();
 		origen.setModel(new DefaultComboBoxModel(new String[] {"Medellin", "Cartagena ", "Bucaramanga", "Cali", "Barranquilla "}));
 		origen.setBounds(75, 56, 112, 22);
 		contentPane.add(origen);
 		
-		JButton btnConsultar = new JButton("Consultar Vuelo");
+		btnConsultar = new JButton("Consultar Vuelo");
 		btnConsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -123,7 +124,7 @@ public class VueloView extends JFrame {
 		btnConsultar.setBounds(124, 170, 112, 37);
 		contentPane.add(btnConsultar);
 		
-		JButton btnEliminar = new JButton("Eliminar Vuelo");
+		btnEliminar = new JButton("Eliminar Vuelo");
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -131,15 +132,15 @@ public class VueloView extends JFrame {
 		btnEliminar.setBounds(368, 170, 112, 37);
 		contentPane.add(btnEliminar);
 		
-		JButton btnActualizar = new JButton("Actualizar Vuelo");
+		btnActualizar = new JButton("Actualizar Vuelo");
 		btnActualizar.setBounds(246, 170, 112, 37);
 		contentPane.add(btnActualizar);
 		
-		JButton btnCrear = new JButton("Crear Vuelo");
+		btnCrear = new JButton("Crear Vuelo");
 		btnCrear.setBounds(10, 170, 104, 37);
 		contentPane.add(btnCrear);
 		
-		JButton btnLeerTodos = new JButton("Leer Todos");
+		btnLeerTodos = new JButton("Leer Todos");
 		btnLeerTodos.setBounds(490, 170, 89, 37);
 		contentPane.add(btnLeerTodos);
 		
@@ -164,7 +165,7 @@ public class VueloView extends JFrame {
 		
 		JScrollPane Asientos = new JScrollPane();
 		Asientos.setToolTipText("Asiento, Disponibilidad");
-		Asientos.setBounds(34, 229, 278, 184);
+		Asientos.setBounds(20, 229, 208, 184);
 		contentPane.add(Asientos);
 		
 		tablaAsientos = new JTable();
@@ -201,6 +202,32 @@ public class VueloView extends JFrame {
 			}
 		));
 		Asientos.setViewportView(tablaAsientos);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(277, 229, 302, 184);
+		contentPane.add(scrollPane);
+		
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+			},
+			new String[] {
+					"Numero","origen","destino","aerolinea", "Horasalida"
+			}
+		));
+		scrollPane.setViewportView(table);
 		
 		
 
