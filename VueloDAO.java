@@ -1,55 +1,68 @@
-package modeloDAO;
+package modelo.dao;
 
-import modeloDTO.Vuelo;
+	import modelo.dto.Vuelo;
 
-import java.util.List;
+	import java.util.List;
 
 
 
-public class VueloDAO extends Persistencia<Vuelo> implements ICrud {
-    public VueloDAO() {
-        super("Vuelo");
-    }
+	public class VueloDAO extends Persistencia<Vuelo> implements ICrud {
+	    public VueloDAO() {
+	        super("Vuelo");
+	    }
 
-    @Override
-    public boolean crear(Object object) {
+	    @Override
+	    public boolean crear(Object object) {
 
-        boolean estado = lista.add((Vuelo) object);
-        guardar();
-        return estado;
-    }
+	        boolean estado = lista.add((Vuelo) object);
+	        guardar();
+	        return estado;
+	    }
 
-    @Override
-    public Object leer(Object object) {
-        for (Vuelo vuelo: lista) {
-            if(vuelo.getNumero()==((Vuelo) object).getNumero());
-            return vuelo;
-        }
-        return null;
-    }
+	    @Override
+	    public Object leer(Object object) {
+	        for (Vuelo vuelo : lista) {
+	            if (vuelo.getNumero() == ((Vuelo) object).getNumero()) {
+	                return vuelo;
+	            }
+	        }
+	        return null;
+	    }
+	    
+	    @Override
+	    public Object actualizar(int index, Object object) {
+	        Object estado = lista.set(index,(Vuelo) object);
+	        guardar();
+	        return estado;
+	    }
 
-    
-    @Override
-    public Object actualizar(int index, Object object) {
-        Object estado = lista.set(index,(Vuelo) object);
-        guardar();
-        return estado;
-    }
 
-    @Override
-    public boolean eliminar(Object object) {
-        boolean estado = lista.remove(object);
-        guardar();
-        return estado;
-    }
+	    @Override
+	    public boolean eliminar(Object object) {
+	        int index = buscarIndex(object);
+	        if (index != -1) {
+	            lista.remove(index);
+	            guardar();
+	            return true;
+	        }
+	        return false;
+	    }
 
-    @Override
-    public int buscarIndex(Object object) {
-        return lista.indexOf(object);
-    }
 
-    @Override
-    public List leerTodos() {
-        return lista;
-    }
-}
+	    @Override
+	    public int buscarIndex(Object object) {
+	        for (int i = 0; i < lista.size(); i++) {
+	            if (lista.get(i).getNumero() == ((Vuelo) object).getNumero()) {
+	                return i;
+	            }
+	        }
+	        return -1;
+	    }
+
+
+	    @Override
+	    public List<Vuelo> leerTodos() {
+	        return lista;
+	    }
+	}
+
