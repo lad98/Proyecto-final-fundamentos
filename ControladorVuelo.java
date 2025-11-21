@@ -103,6 +103,18 @@ public class ControladorVuelo implements ActionListener {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
+        this.vista.numero.setText("");
+        this.vista.origen.setSelectedIndex(0);
+        this.vista.destino.setSelectedIndex(0);
+        this.vista.aerolinea.setSelectedIndex(0);
+        this.vista.spinner.setValue(new Date());
+        this.vista.Filas.setText("");
+        this.vista.Columnas.setText("");
+
+        DefaultTableModel asientosModel =
+                (DefaultTableModel) this.vista.tablaAsientos.getModel();
+        asientosModel.setRowCount(0);
+
     }
 
     public void leer() {
@@ -159,36 +171,80 @@ public class ControladorVuelo implements ActionListener {
                         "El vuelo no tiene asientos asignados.",
                         "Advertencia",
                         JOptionPane.WARNING_MESSAGE);
+           
             }
-        }
-    }
-
-    public void actualizar() {
-        int respuesta = JOptionPane.showConfirmDialog(null, "Quieres actualizar los datos?");
-
-        if (respuesta == JOptionPane.YES_OPTION) {
-
             
-            Vuelo original = (Vuelo) modelo.leerTodos().get(index);
-
-            Vuelo vuelo = new Vuelo();
-            vuelo.setNumero(Integer.valueOf(this.vista.numero.getText()));
-            vuelo.setOrigen(this.vista.origen.getSelectedItem().toString());
-            vuelo.setDestino(this.vista.destino.getSelectedItem().toString());
-            vuelo.setAerolinea(this.vista.aerolinea.getSelectedItem().toString());
-            vuelo.setFechaHoraSalida((Date) this.vista.spinner.getValue());
-
-            
-            vuelo.setAsiento(original.getAsiento());
-
-            modelo.actualizar(index, vuelo);
-
-            JOptionPane.showMessageDialog(null, "Los datos se modificaron");
-            this.vista.Filas.setEditable(true);
-            this.vista.Columnas.setEditable(true);
         }
+        
     }
+    	public void actualizar() {
+    	    int respuesta = JOptionPane.showConfirmDialog(null, "¿Quieres actualizar los datos?");
 
+    	    if (respuesta == JOptionPane.YES_OPTION) {
+    	        
+    	        Vuelo vueloActualizado = new Vuelo();
+    	        Vuelo vueloBuscado = new Vuelo(); 
+
+    	        try {
+    	           
+    	            String numeroTexto = this.vista.numero.getText();
+    	            if (numeroTexto.isEmpty()) {
+    	                JOptionPane.showMessageDialog(null, "Debe ingresar el número de vuelo a actualizar.", "Error", JOptionPane.ERROR_MESSAGE);
+    	                return;
+    	            }
+    	            int numeroVuelo = Integer.parseInt(numeroTexto);
+
+    	            
+    	            vueloBuscado.setNumero(numeroVuelo);
+    	            vueloActualizado.setNumero(numeroVuelo);
+
+    	            
+    	            int index = modelo.buscarIndex(vueloBuscado);
+
+    	            if (index == -1) {
+    	                JOptionPane.showMessageDialog(null, "No se encontró ningún vuelo con el número " + numeroVuelo, "Error de Búsqueda", JOptionPane.ERROR_MESSAGE);
+    	                return;
+    	            }
+    	            
+    	            
+    	            Vuelo original = (Vuelo) modelo.leerTodos().get(index); 
+
+    	            vueloActualizado.setOrigen(this.vista.origen.getSelectedItem().toString());
+    	            vueloActualizado.setDestino(this.vista.destino.getSelectedItem().toString());
+    	            vueloActualizado.setAerolinea(this.vista.aerolinea.getSelectedItem().toString());
+    	            vueloActualizado.setFechaHoraSalida((Date) this.vista.spinner.getValue());
+
+    	           
+    	            vueloActualizado.setAsiento(original.getAsiento());
+
+    	         
+    	            modelo.actualizar(index, vueloActualizado);
+
+    	            JOptionPane.showMessageDialog(null, "Los datos del vuelo " + numeroVuelo + " se modificaron correctamente.");
+    	            
+    	           
+    	            this.vista.Filas.setEditable(true);
+    	            this.vista.Columnas.setEditable(true);
+    	            this.vista.numero.setText("");
+    	            this.vista.origen.setSelectedIndex(0);
+    	            this.vista.destino.setSelectedIndex(0);
+    	            this.vista.aerolinea.setSelectedIndex(0);
+    	            this.vista.spinner.setValue(new Date());
+    	            this.vista.Filas.setText("");
+    	            this.vista.Columnas.setText("");
+
+    	            DefaultTableModel asientosModel =
+    	                    (DefaultTableModel) this.vista.tablaAsientos.getModel();
+    	            asientosModel.setRowCount(0);
+    	            
+    	        } catch (NumberFormatException e) {
+    	            JOptionPane.showMessageDialog(null, "El número de vuelo debe ser un valor numérico válido.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+    	        } catch (Exception e) {
+    	            JOptionPane.showMessageDialog(null, "Ocurrió un error al actualizar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    	            e.printStackTrace();
+    	        }
+    	    }
+    	}
     public void eliminar() {
 
         Vuelo buscar = new Vuelo();
