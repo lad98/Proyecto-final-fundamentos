@@ -51,8 +51,8 @@ public class AsignarAsientoController implements ActionListener {
         }
   
     }
-    public void asignarAsiento() {
-        Vuelo vueloE = this.vuelo;  
+     public void asignarAsiento() {
+        Vuelo vueloE = this.vuelo;
 
         if (vueloE == null) {
             JOptionPane.showMessageDialog(null, "Primero consulte un vuelo.",
@@ -65,8 +65,16 @@ public class AsignarAsientoController implements ActionListener {
 
         try {
             fila = Integer.parseInt(Vista.Fila.getText()) - 1;
-            String letraTexto = Vista.Letra.getText().toUpperCase(); 
-            asientoFila = letraTexto.charAt(0) - 'A'; 
+            String letraTexto = Vista.Letra.getText();
+            
+            // VALIDAR QUE SEA MAYÚSCULA
+            if (letraTexto.isEmpty() || !Character.isUpperCase(letraTexto.charAt(0))) {
+                JOptionPane.showMessageDialog(null, "Ingrese una letra MAYÚSCULA (A-F).",
+                        "Error entrada", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            asientoFila = letraTexto.charAt(0) - 'A';
         } catch (NumberFormatException | StringIndexOutOfBoundsException e) {
             JOptionPane.showMessageDialog(null, "Ingrese valores válidos (Fila: número, Letra: A-F).",
                     "Error entrada", JOptionPane.ERROR_MESSAGE);
@@ -98,35 +106,35 @@ public class AsignarAsientoController implements ActionListener {
         }
 
         if (asientoSeleccionado.getPasajero() == null) {
-            
-            String nombrePasajero = JOptionPane.showInputDialog(null, 
-                    "Ingrese el nombre del pasajero:", 
-                    "Asignar Pasajero", 
+
+            String nombrePasajero = JOptionPane.showInputDialog(null,
+                    "Ingrese el nombre del pasajero:",
+                    "Asignar Pasajero",
                     JOptionPane.QUESTION_MESSAGE);
-            
+
             if (nombrePasajero == null || nombrePasajero.trim().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Debe ingresar un nombre.",
                         "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            
-            String correoPasajero = JOptionPane.showInputDialog(null, 
-                    "Ingrese el correo electrónico del pasajero:", 
-                    "Asignar Pasajero", 
+
+            String correoPasajero = JOptionPane.showInputDialog(null,
+                    "Ingrese el correo electrónico del pasajero:",
+                    "Asignar Pasajero",
                     JOptionPane.QUESTION_MESSAGE);
-            
+
             if (correoPasajero == null || correoPasajero.trim().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Debe ingresar un correo.",
                         "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            
+
             Pasajero nuevoPasajero = new Pasajero();
             nuevoPasajero.setNombre(nombrePasajero.trim());
             nuevoPasajero.setCorreoLectronico(correoPasajero.trim());
-            
+
             asientoSeleccionado.setPasajero(nuevoPasajero);
-            
+
             JOptionPane.showMessageDialog(null,
                     "Asiento asignado a " + nombrePasajero + ". Fila " + (fila + 1) +
                     ", Asiento " + (char)('A' + asientoFila),
